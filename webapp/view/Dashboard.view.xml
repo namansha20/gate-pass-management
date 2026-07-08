@@ -1,0 +1,101 @@
+<mvc:View
+    controllerName="com.acutaas.gatepassmanagement.controller.Dashboard"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core"
+>
+    <App id="dashboardApp">
+        <Page showHeader="false">
+            <SplitApp
+                id="splitApp"
+                initialDetail="mainDashboard"
+                initialMaster="sidebarMenu"
+            >
+                <masterPages>
+                    <Page id="sidebarMenu" showHeader="false" class="sapUiNoContentPadding">
+                        <content>
+                            <List mode="SingleSelectMaster" class="sapUiTinyMarginTop">
+                                <StandardListItem title="Home" icon="sap-icon://home" type="Navigation" selected="true" />
+                            </List>
+                            <List headerText="REPORTS" mode="SingleSelectMaster">
+                                <StandardListItem title="Gate Pass Approval Report" icon="sap-icon://edit" type="Navigation" />
+                                <StandardListItem title="Gate Pass Detail Report" icon="sap-icon://document" type="Navigation" />
+                            </List>
+                        </content>
+                    </Page>
+                </masterPages>
+
+                <detailPages>
+                    <Page id="mainDashboard" showHeader="false" backgroundDesign="Solid">
+                        <content>
+                            <VBox class="sapUiMediumMargin">
+                                
+                                <Title text="Welcome, Naman Sharma" level="H1" titleStyle="H2" class="sapUiTinyMarginBottom" />
+                                <Text text="Select an option to get started" class="sapUiLargeMarginBottom" />
+
+                                <HBox wrap="Wrap">
+    
+    <GenericTile 
+        press=".onManualPress" 
+        class="customAppTile blueTile sapUiSmallMarginEnd"
+        header="1. Manual Gate Pass"
+        subheader="Create Gate Pass without reference document">
+        <tileContent>
+            <TileContent>
+                <content>
+                    <ImageContent src="sap-icon://add-document" />
+                </content>
+            </TileContent>
+        </tileContent>
+    </GenericTile>
+
+    <GenericTile 
+        class="customAppTile greenTile sapUiSmallMarginEnd"
+        header="2. Gate Pass with Reference Document"
+        subheader="Create Gate Pass using reference document">
+        <tileContent>
+            <TileContent>
+                <content>
+                    <ImageContent src="sap-icon://inspection" />
+                </content>
+            </TileContent>
+        </tileContent>
+    </GenericTile>
+
+    <GenericTile 
+        class="customAppTile orangeTile sapUiSmallMarginEnd"
+        header="3. Change Gate Pass"
+        subheader="Modify existing Gate Pass">
+        <tileContent>
+            <TileContent>
+                <content>
+                    <ImageContent src="sap-icon://edit" />
+                </content>
+            </TileContent>
+        </tileContent>
+    </GenericTile>
+
+    <GenericTile 
+        class="customAppTile purpleTile"
+        header="4. Display Gate Pass"
+        subheader="View existing Gate Pass">
+        <tileContent>
+            <TileContent>
+                <content>
+                    <ImageContent src="sap-icon://show" />
+                </content>
+            </TileContent>
+        </tileContent>
+    </GenericTile>
+
+</HBox>
+                            </VBox>
+                        </content>
+                    </Page>
+                </detailPages>
+            </SplitApp>
+        </Page>
+    </App>
+</mvc:View>

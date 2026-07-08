@@ -1,0 +1,61 @@
+/* Custom Tile Sizing and Layout */
+/* Custom Tile Sizing and Layout */
+.customAppTile {
+    width: 11.5rem !important;  /* Reduced from 14rem to fit 4 in a row */
+    height: auto !important;   /* Slightly reduced to maintain proportions */
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.08); 
+    border: 1px solid #eef0f2;
+}
+
+/* Ensure the title wraps properly */
+.customAppTile .sapMGTTitle {
+    white-space: normal !important;
+    font-size: 1rem;
+    line-height: 1.2;
+}
+
+/* Ensure the full description shows without truncating (ellipses) */
+.customAppTile .sapMGTSubHdr {
+    white-space: normal !important;
+    -webkit-line-clamp: unset !important;
+    display: block !important;
+    height: auto !important;
+}
+
+/* =========================================
+   Tile Color Themes 
+   ========================================= */
+
+/* 1. Blue Tile */
+.blueTile .sapUiIcon {
+    color: #0070f2 !important; 
+}
+.blueTile .sapMGTTitle {
+    color: #0070f2 !important; /* Remove this if you don't want the text colored */
+}
+
+/* 2. Green Tile */
+.greenTile .sapUiIcon {
+    color: #2b7c2b !important;
+}
+.greenTile .sapMGTTitle {
+    color: #2b7c2b !important; /* Remove this if you don't want the text colored */
+}
+
+/* 3. Orange Tile */
+.orangeTile .sapUiIcon {
+    color: #e9730c !important; 
+}
+.orangeTile .sapMGTTitle {
+    color: #e9730c !important; /* Remove this if you don't want the text colored */
+}
+
+/* 4. Purple Tile */
+.purpleTile .sapUiIcon {
+    color: #72349e !important;
+}
+.purpleTile .sapMGTTitle {
+    color: #72349e !important; /* Remove this if you don't want the text colored */
+}
