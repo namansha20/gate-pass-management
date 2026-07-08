@@ -3,7 +3,6 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     xmlns:f="sap.f"
-    xmlns:l="sap.ui.layout"
     xmlns:core="sap.ui.core"
 >
     <App id="dashboardApp">
@@ -14,83 +13,163 @@
                 initialMaster="sidebarMenu"
             >
                 <masterPages>
-                    <Page id="sidebarMenu" showHeader="false" class="sapUiNoContentPadding">
+                    <Page
+                        id="sidebarMenu"
+                        showHeader="false"
+                        class="sapUiNoContentPadding"
+                    >
                         <content>
-                            <List mode="SingleSelectMaster" class="sapUiTinyMarginTop">
-                                <StandardListItem title="Home" icon="sap-icon://home" type="Navigation" selected="true" />
+                            <List
+                                mode="SingleSelectMaster"
+                                class="sapUiTinyMarginTop"
+                            >
+                                <StandardListItem
+                                    title="Home"
+                                    icon="sap-icon://home"
+                                    type="Navigation"
+                                    selected="true"
+                                />
                             </List>
-                            <List headerText="REPORTS" mode="SingleSelectMaster">
-                                <StandardListItem title="Gate Pass Approval Report" icon="sap-icon://edit" type="Navigation" />
-                                <StandardListItem title="Gate Pass Detail Report" icon="sap-icon://document" type="Navigation" />
+                            <List
+                                headerText="REPORTS"
+                                mode="SingleSelectMaster"
+                            >
+                                <StandardListItem
+                                    title="Gate Pass Approval Report"
+                                    icon="sap-icon://edit"
+                                    type="Navigation"
+                                />
+                                <StandardListItem
+                                    title="Gate Pass Detail Report"
+                                    icon="sap-icon://document"
+                                    type="Navigation"
+                                />
                             </List>
                         </content>
                     </Page>
                 </masterPages>
 
                 <detailPages>
-                    <Page id="mainDashboard" showHeader="false" backgroundDesign="Solid">
+                    <Page
+                        id="mainDashboard"
+                        showHeader="false"
+                        backgroundDesign="Solid"
+                    >
                         <content>
                             <VBox class="sapUiMediumMargin">
-                                
-                                <Title text="Welcome, Naman Sharma" level="H1" titleStyle="H2" class="sapUiTinyMarginBottom" />
-                                <Text text="Select an option to get started" class="sapUiLargeMarginBottom" />
+                                <Title
+                                    text="Welcome, Naman Sharma"
+                                    level="H1"
+                                    titleStyle="H2"
+                                    class="sapUiTinyMarginBottom"
+                                />
+                                <Text
+                                    text="Select an option to get started"
+                                    class="sapUiLargeMarginBottom"
+                                />
 
-                                <HBox wrap="Wrap">
-    
-    <GenericTile 
-        press=".onManualPress" 
-        class="customAppTile blueTile sapUiSmallMarginEnd"
-        header="1. Manual Gate Pass"
-        subheader="Create Gate Pass without reference document">
-        <tileContent>
-            <TileContent>
-                <content>
-                    <ImageContent src="sap-icon://add-document" />
-                </content>
-            </TileContent>
-        </tileContent>
-    </GenericTile>
+                                <!-- Custom tile grid — no GenericTile, full control over content -->
+                                <FlexBox
+                                    wrap="Wrap"
+                                    class="gpTileGrid"
+                                >
+                                    <!-- Important: VBox doesn't have a press event natively — you need to wire it up in the controller (onAfterRendering, attach click via addEventDelegate), or simpler: wrap each VBox in <Link> or use a plain <HBox>/<Panel> with core:Icon inside and attach attachBrowserEvent("click", ...) in the controller. I can show you that controller wiring if you want — just say the word. -->
+                                    <VBox
+                                        class="gpTile gpTileBlue"
+                                        press=".onManualPress"
+                                    >
+                                        <core:Icon
+                                            src="sap-icon://add-document"
+                                            class="gpTileIcon"
+                                        />
+                                        <Title
+                                            text="1. Manual Gate Pass"
+                                            level="H3"
+                                            class="gpTileTitle"
+                                            wrapping="true"
+                                        />
+                                        <Text
+                                            text="Create Gate Pass without reference document"
+                                            class="gpTileDesc"
+                                        />
+                                        <core:Icon
+                                            src="sap-icon://slim-arrow-right"
+                                            class="gpTileArrow"
+                                        />
+                                    </VBox>
 
-    <GenericTile 
-        class="customAppTile greenTile sapUiSmallMarginEnd"
-        header="2. Gate Pass with Reference Document"
-        subheader="Create Gate Pass using reference document">
-        <tileContent>
-            <TileContent>
-                <content>
-                    <ImageContent src="sap-icon://inspection" />
-                </content>
-            </TileContent>
-        </tileContent>
-    </GenericTile>
+                                    <VBox
+                                        class="gpTile gpTileGreen"
+                                        press=".onReferencePress"
+                                    >
+                                        <core:Icon
+                                            src="sap-icon://inspection"
+                                            class="gpTileIcon"
+                                        />
+                                        <Title
+                                            text="2. Gate Pass with Reference Document"
+                                            level="H3"
+                                            class="gpTileTitle"
+                                            wrapping="true"
+                                        />
+                                        <Text
+                                            text="Create Gate Pass using reference document"
+                                            class="gpTileDesc"
+                                        />
+                                        <core:Icon
+                                            src="sap-icon://slim-arrow-right"
+                                            class="gpTileArrow"
+                                        />
+                                    </VBox>
 
-    <GenericTile 
-        class="customAppTile orangeTile sapUiSmallMarginEnd"
-        header="3. Change Gate Pass"
-        subheader="Modify existing Gate Pass">
-        <tileContent>
-            <TileContent>
-                <content>
-                    <ImageContent src="sap-icon://edit" />
-                </content>
-            </TileContent>
-        </tileContent>
-    </GenericTile>
+                                    <VBox
+                                        class="gpTile gpTileOrange"
+                                        press=".onChangePress"
+                                    >
+                                        <core:Icon
+                                            src="sap-icon://edit"
+                                            class="gpTileIcon"
+                                        />
+                                        <Title
+                                            text="3. Change Gate Pass"
+                                            level="H3"
+                                            class="gpTileTitle"
+                                            wrapping="true"
+                                        />
+                                        <Text
+                                            text="Modify existing Gate Pass"
+                                            class="gpTileDesc"
+                                        />
+                                        <core:Icon
+                                            src="sap-icon://slim-arrow-right"
+                                            class="gpTileArrow"
+                                        />
+                                    </VBox>
 
-    <GenericTile 
-        class="customAppTile purpleTile"
-        header="4. Display Gate Pass"
-        subheader="View existing Gate Pass">
-        <tileContent>
-            <TileContent>
-                <content>
-                    <ImageContent src="sap-icon://show" />
-                </content>
-            </TileContent>
-        </tileContent>
-    </GenericTile>
-
-</HBox>
+                                    <VBox
+                                        class="gpTile gpTilePurple"
+                                        press=".onDisplayPress"
+                                    >
+                                        <core:Icon
+                                            src="sap-icon://show"
+                                            class="gpTileIcon"
+                                        />
+                                        <Title
+                                            text="4. Display Gate Pass"
+                                            level="H3"
+                                            class="gpTileTitle"
+                                            wrapping="true"
+                                        />
+                                        <Text
+                                            text="View existing Gate Pass"
+                                            class="gpTileDesc"
+                                        />
+                                        <core:Icon
+                                            src="sap-icon://slim-arrow-right"
+                                            class="gpTileArrow"
+                                        />
+                                    </VBox>
+                                </FlexBox>
                             </VBox>
                         </content>
                     </Page>
