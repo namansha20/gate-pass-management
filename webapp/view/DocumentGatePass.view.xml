@@ -1,0 +1,176 @@
+<mvc:View
+    controllerName="com.acutaas.gatepassmanagement.controller.DocumentGatePass"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:l="sap.ui.layout"
+>
+    <Page id="documentGatePassPage" showHeader="true" class="sapUiContentPadding">
+        <customHeader>
+            <Toolbar id="docHeaderToolbar" class="sapUiMediumMarginTopBottom">
+                <Title id="docHeaderTitle" text="Create Gate Pass - With Reference Document" level="H2" titleStyle="H2" class="sapUiTinyMarginBegin" />
+                <ToolbarSpacer id="docHeaderSpacer" />
+                <Button id="docSaveButton" text="Save" type="Emphasized" press=".onSavePress" />
+                <Button id="docSubmitButton" text="Submit for Approval" type="Default" press=".onSubmitPress" />
+                <Button id="docClearButton" text="Clear" type="Default" press=".onClearPress" />
+                <Button id="docCancelButton" text="Cancel" type="Default" press=".onCancelPress" />
+            </Toolbar>
+        </customHeader>
+
+        <content>
+            <VBox id="docPageContent" class="sapUiSmallMargin docPageContent">
+
+                <IconTabBar id="docTabBar" expandable="false" class="docTabBar sapUiNoContentPadding">
+                    <items>
+                        <IconTabFilter id="headerTabFilter" text="Header Details" key="header">
+                            <content>
+                                <FlexBox id="topFormsFlexBox" class="sapUiSmallMarginBottom" wrap="Wrap" justifyContent="SpaceBetween">
+                                    
+                                    <VBox width="32%" class="sapUiCard" style="border: 1px solid #e5e5e5; background: #fff; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                                        <Title text="Reference Document" level="H4" titleStyle="H4" class="sapUiSmallMarginBottom" />
+                                        <form:SimpleForm id="refDocForm" layout="ColumnLayout" columnsM="1" columnsL="1" columnsXL="1" editable="true">
+                                            <form:content>
+                                                <Label text="Document Type" required="true" />
+                                                <Select id="docTypeSelect"></Select>
+                                                
+                                                <Label text="Reference Document No." required="true" />
+                                                <Input id="refDocNoInput" showValueHelp="true" valueHelpIconSrc="sap-icon://search" valueHelpRequest=".onRefDocHelp" />
+                                            </form:content>
+                                        </form:SimpleForm>
+                                    </VBox>
+
+                                    <VBox width="66%" class="sapUiCard" style="border: 1px solid #e5e5e5; background: #fff; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                                        <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                                            <core:Icon src="sap-icon://information" class="sapUiTinyMarginEnd" color="#0070f2"/>
+                                            <Title text="Auto Fetched Details" level="H4" titleStyle="H4" color="#0070f2" />
+                                        </HBox>
+                                        <form:SimpleForm id="autoFetchedForm" layout="ColumnLayout" columnsM="3" columnsL="3" columnsXL="3" editable="false">
+                                            <form:content>
+                                                <Label text="Vendor" />
+                                                <Input id="fetchVendor" editable="false" />
+                                                <Label text="Transporter" />
+                                                <Input id="fetchTransporter" editable="false" />
+                                                <Label text="LR Date" />
+                                                <Input id="fetchLrDate" editable="false" />
+
+                                                <Label text="Vendor Code" />
+                                                <Input id="fetchVendorCode" editable="false" />
+                                                <Label text="Vehicle Number" />
+                                                <Input id="fetchVehicle" editable="false" />
+                                                <Label text="Driver Name" />
+                                                <Input id="fetchDriverName" editable="false" />
+
+                                                <Label text="Destination Address" />
+                                                <TextArea id="fetchAddress" editable="false" rows="2" />
+                                                <Label text="LR Number" />
+                                                <Input id="fetchLrNum" editable="false" />
+                                                <Label text="Driver Mobile No." />
+                                                <Input id="fetchDriverMob" editable="false" />
+                                            </form:content>
+                                        </form:SimpleForm>
+                                    </VBox>
+                                </FlexBox>
+
+                                <VBox class="sapUiCard" style="border: 1px solid #e5e5e5; background: #fff; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                                    <form:SimpleForm id="generalDetailsForm" layout="ColumnLayout" columnsM="3" columnsL="3" columnsXL="3" editable="true">
+                                        <form:content>
+                                            <Label text="Gate Pass Type" required="true" />
+                                            <Select id="gatePassTypeSelect"></Select>
+                                            <Label text="Mode of Transport" required="true" />
+                                            <Select id="transportSelect"></Select>
+                                            <Label text="Expected Return Date" required="true" />
+                                            <DatePicker id="returnDatePicker" valueFormat="dd.MM.yyyy" displayFormat="dd.MM.yyyy" />
+
+                                            <Label text="Requester Employee Name" required="true" />
+                                            <Input id="requestorInput" />
+                                            <Label text="Reason for Movement" required="true" />
+                                            <Input id="reasonInput" />
+                                            <Label text="Remarks" />
+                                            <Input id="remarksInput" placeholder="Enter remarks (optional)" />
+
+                                            <Label text="Request Date" required="true" />
+                                            <DatePicker id="requestDatePicker" valueFormat="dd.MM.yyyy" displayFormat="dd.MM.yyyy" />
+                                            <Label text="Gate Pass Valid Till" required="true" />
+                                            <DatePicker id="validTillDatePicker" valueFormat="dd.MM.yyyy" displayFormat="dd.MM.yyyy" />
+                                        </form:content>
+                                    </form:SimpleForm>
+                                </VBox>
+                            </content>
+                        </IconTabFilter>
+
+                        <IconTabFilter id="itemTabFilter" text="Item Details" key="items">
+                            <content>
+                                <Panel id="itemPanel" expandable="false" class="sapUiNoContentPadding docPanel sapUiMediumMarginTop">
+                                    <headerToolbar>
+                                        <OverflowToolbar id="itemsToolbar">
+                                            <Title id="itemsToolbarTitle" text="Item Details" level="H4" titleStyle="H4" />
+                                            <ToolbarSpacer id="itemsToolbarSpacer" />
+                                            <Button id="addItemButton" text="Add Item" icon="sap-icon://add" type="Transparent" press=".onAddItem" />
+                                            <Button id="deleteSelectedItemsButton" text="Delete" icon="sap-icon://delete" type="Transparent" press=".onDeleteSelectedPress" />
+                                        </OverflowToolbar>
+                                    </headerToolbar>
+
+                                    <Table id="itemsTable" items="{/itemData}" mode="None">
+                                        <columns>
+                                            <Column id="snoColumn" width="3rem"><Label text="S.No." /></Column>
+                                            <Column id="materialCodeColumn"><Label text="Material Code" required="true" /></Column>
+                                            <Column id="materialDescColumn"><Label text="Material Description" required="true" /></Column>
+                                            <Column id="uomColumn" width="5rem"><Label text="UOM" required="true" /></Column>
+                                            <Column id="quantityColumn" width="5rem"><Label text="Quantity" required="true" /></Column>
+                                            <Column id="batchColumn"><Label text="Batch No." /></Column>
+                                            <Column id="plantColumn"><Label text="Plant" /></Column>
+                                            <Column id="storageLocColumn"><Label text="Storage Location" /></Column>
+                                            <Column id="itemActionColumn" width="4rem"><Label text="Actions" /></Column>
+                                        </columns>
+                                        <items>
+                                            <ColumnListItem id="itemRowTemplate">
+                                                <cells>
+                                                    <Text text="{sNo}" />
+                                                    <Input value="{materialCode}" showValueHelp="true" valueHelpIconSrc="sap-icon://search" />
+                                                    <Input value="{materialDesc}" editable="false" />
+                                                    <Select selectedKey="{uom}"></Select>
+                                                    <Input value="{quantity}" type="Number" />
+                                                    <Input value="{batchNo}" />
+                                                    <Select selectedKey="{plant}"></Select>
+                                                    <Select selectedKey="{storageLoc}"></Select>
+                                                    <Button icon="sap-icon://delete" type="Transparent" press=".onDeleteItemPress" />
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                                </Panel>
+                            </content>
+                        </IconTabFilter>
+                    </items>
+                </IconTabBar>
+
+                <FlexBox id="docBottomGrid" class="sapUiMediumMarginTop" wrap="Wrap" justifyContent="SpaceBetween">
+                    <VBox id="notesCard" class="docInfoCard sapUiCard sapUiSmallMarginBottom" width="32%" style="border: 1px solid #e5e5e5; background: #fff; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                        <Label id="notesLabel" text="Comments / Notes:" class="sapUiTinyMarginBottom" />
+                        <TextArea id="notesTextArea" rows="4" width="100%" />
+                    </VBox>
+
+                    <VBox id="attachmentsCard" class="docInfoCard sapUiCard sapUiSmallMarginBottom" width="32%" style="border: 1px solid #e5e5e5; background: #fff; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                        <Title id="attachmentsTitle" text="Attachments" level="H5" class="sapUiTinyMarginBottom" />
+                        <HBox id="attachmentsRow" alignItems="Center" justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
+                            <HBox alignItems="Center">
+                                <Link id="attachmentLink" text="" target="_blank" press=".onAttachmentPress" class="sapUiSmallMarginEnd" />
+                                <Text id="attachmentSizeText" text="" />
+                            </HBox>
+                            <Button id="downloadAttachmentButton" icon="sap-icon://download" type="Transparent" press=".onDownloadAttachmentPress" />
+                        </HBox>
+                        <Button id="addAttachmentButton" text="Add Attachment" icon="sap-icon://attachment" type="Transparent" press=".onAddAttachmentPress" class="sapUiTinyMarginTop" />
+                    </VBox>
+
+                    <VBox id="gatePassNumberCard" class="docInfoCard docStatusCard sapUiCard sapUiSmallMarginBottom" width="32%" style="border: 1px solid #d7e2ef; background-color: #eef4fb; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                        <Text id="gatePassNumberLabel" text="Gate Pass Number" class="sapUiTinyMarginBottom" />
+                        <Title id="gatePassNumberValue" text="To be generated on save" level="H3" titleStyle="H3" class="sapThemeBrand-asColor" />
+                        <Text id="gatePassNumberNote" text="(System will generate after saving)" class="sapUiTinyMarginTop" />
+                    </VBox>
+                </FlexBox>
+
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

@@ -1,0 +1,184 @@
+<mvc:View
+    controllerName="com.acutaas.gatepassmanagement.controller.DisplayGatePass"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:l="sap.ui.layout"
+>
+    <Page id="displayGatePassPage" showHeader="true" class="sapUiContentPadding">
+        
+        <customHeader>
+            <Toolbar id="displayHeaderToolbar" class="sapUiMediumMarginTopBottom">
+                <Title id="displayHeaderTitle" text="Display Gate Pass" level="H2" titleStyle="H2" class="sapUiTinyMarginBegin" />
+                <ToolbarSpacer id="displayHeaderSpacer" />
+                <Button id="btnPrint" text="Print" icon="sap-icon://print" type="Default" press=".onPrintPress" />
+                <Button id="btnDownloadPdf" text="Download PDF" icon="sap-icon://download" type="Default" press=".onDownloadPdfPress" />
+                <Button id="btnBack" text="Back" icon="sap-icon://nav-back" type="Default" press=".onBackPress" />
+            </Toolbar>
+        </customHeader>
+
+        <content>
+            <VBox id="displayPageContent" class="sapUiSmallMargin">
+                
+                <HBox class="sapUiCard sapUiSmallMarginBottom" alignItems="Center" justifyContent="SpaceBetween" style="border: 1px solid #d9e6f2; background: #f5f9fc; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                    
+                    <HBox alignItems="Center">
+                        <VBox justifyContent="Center" alignItems="Center" class="sapUiSmallMarginEnd" style="width: 3rem; height: 3rem; background: #e3f2fd; border-radius: 50%;">
+                            <core:Icon src="sap-icon://document-text" size="1.5rem" color="#0a6ed1" />
+                        </VBox>
+                        
+                        <VBox class="sapUiMediumMarginEnd">
+                            <Label text="Gate Pass No." class="sapUiTinyMarginBottom" />
+                            <Title text="{/kpi/gatePassNo}" level="H3" titleStyle="H3" style="color: #0a6ed1;" />
+                        </VBox>
+                    </HBox>
+
+                    <VBox class="sapUiMediumMarginEnd">
+                        <Label text="Gate Pass Type" class="sapUiTinyMarginBottom" />
+                        <Text text="{/kpi/gatePassType}" />
+                    </VBox>
+
+                    <VBox class="sapUiMediumMarginEnd">
+                        <Label text="Status" class="sapUiTinyMarginBottom" />
+                        <ObjectStatus text="{/kpi/status}" state="Success" inverted="true" />
+                    </VBox>
+
+                    <VBox class="sapUiMediumMarginEnd">
+                        <Label text="Request Date" class="sapUiTinyMarginBottom" />
+                        <Text text="{/kpi/requestDate}" />
+                    </VBox>
+
+                    <VBox class="sapUiMediumMarginEnd">
+                        <Label text="Expected Return Date" class="sapUiTinyMarginBottom" />
+                        <Text text="{/kpi/expectedReturnDate}" />
+                    </VBox>
+
+                    <VBox>
+                        <Label text="Created By" class="sapUiTinyMarginBottom" />
+                        <Text text="{/kpi/createdBy}" />
+                    </VBox>
+                </HBox>
+
+                <Panel id="headerDetailsPanel" headerText="Header Details" expandable="true" expanded="true" class="sapUiNoContentPadding sapUiCard sapUiSmallMarginBottom" style="border: 1px solid #e5e5e5; background: #fff; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                    <form:SimpleForm id="headerDetailsForm" layout="ColumnLayout" columnsM="2" columnsL="4" columnsXL="4" editable="false">
+                        <form:content>
+                            <Label text="Unit:" />
+                            <Input value="{/header/unit}" editable="false" />
+                            <Label text="Vendor:" />
+                            <Input value="{/header/vendor}" editable="false" />
+                            <Label text="Mode of Transport:" />
+                            <Input value="{/header/modeOfTransport}" editable="false" />
+
+                            <Label text="Plant:" />
+                            <Input value="{/header/plant}" editable="false" />
+                            <Label text="Vehicle Number:" />
+                            <Input value="{/header/vehicleNumber}" editable="false" />
+                            <Label text="Reason for Movement:" />
+                            <Input value="{/header/reasonForMovement}" editable="false" />
+
+                            <Label text="Gate Pass Type:" />
+                            <Input value="{/header/gatePassType}" editable="false" />
+                            <Label text="Driver Name:" />
+                            <Input value="{/header/driverName}" editable="false" />
+                            <Label text="Driver Mobile No.:" />
+                            <Input value="{/header/driverMobileNo}" editable="false" />
+
+                            <Label text="Requester Employee Name:" />
+                            <Input value="{/header/requesterName}" editable="false" />
+                            <Label text="Request Date:" />
+                            <Input value="{/header/requestDate}" editable="false" />
+                            <Label text="Expected Return Date:" />
+                            <Input value="{/header/expectedReturnDate}" editable="false" />
+                        </form:content>
+                    </form:SimpleForm>
+                </Panel>
+
+                <FlexBox wrap="Wrap" justifyContent="SpaceBetween" class="sapUiSmallMarginBottom">
+                    
+                    <VBox width="49%" class="sapUiCard" style="border: 1px solid #e5e5e5; background: #fff; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                        <Toolbar class="sapUiNoBorder">
+                            <Title text="Reference Document Details" level="H5" titleStyle="H5" style="color: #0a6ed1;" />
+                        </Toolbar>
+                        <form:SimpleForm id="refDocForm" layout="ColumnLayout" columnsM="3" columnsL="3" columnsXL="3" editable="false">
+                            <form:content>
+                                <Label text="Document Type:" />
+                                <Input value="{/refDoc/docType}" editable="false" />
+                                <Label text="Vendor Code:" />
+                                <Input value="{/refDoc/vendorCode}" editable="false" />
+                                
+                                <Label text="Reference Document No.:" />
+                                <Input value="{/refDoc/refDocNo}" editable="false" />
+                                <Label text="Transporter:" />
+                                <Input value="{/refDoc/transporter}" editable="false" />
+
+                                <Label text="LR Number:" />
+                                <Input value="{/refDoc/lrNumber}" editable="false" />
+                                <Label text="LR Date:" />
+                                <Input value="{/refDoc/lrDate}" editable="false" />
+
+                                <Label text="Destination Address:" />
+                                <TextArea value="{/refDoc/destinationAddress}" rows="3" editable="false" />
+                            </form:content>
+                        </form:SimpleForm>
+                    </VBox>
+
+                    <VBox width="49%" class="sapUiCard" style="border: 1px solid #e5e5e5; background: #fff; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                        <Toolbar class="sapUiNoBorder">
+                            <Title text="Item Details" level="H5" titleStyle="H5" style="color: #0a6ed1;" />
+                        </Toolbar>
+                        <Table id="itemsTable" items="{/itemData}" mode="None" class="sapUiSmallMargin">
+                            <columns>
+                                <Column width="3rem"><Label text="S.No." /></Column>
+                                <Column><Label text="Material Code" /></Column>
+                                <Column><Label text="Material Description" /></Column>
+                                <Column width="4rem"><Label text="UOM" /></Column>
+                                <Column width="5rem"><Label text="Quantity" /></Column>
+                                <Column><Label text="Batch No." /></Column>
+                                <Column><Label text="Storage Location" /></Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Text text="{sNo}" />
+                                        <Text text="{materialCode}" />
+                                        <Text text="{materialDesc}" />
+                                        <Text text="{uom}" />
+                                        <Text text="{quantity}" />
+                                        <Text text="{batchNo}" />
+                                        <Text text="{storageLoc}" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </VBox>
+                </FlexBox>
+
+                <FlexBox wrap="Wrap" justifyContent="SpaceBetween">
+                    
+                    <VBox width="49%" class="sapUiCard" style="border: 1px solid #e5e5e5; background: #fff; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                        <Title text="Attachments" level="H5" titleStyle="H5" style="color: #0a6ed1;" class="sapUiSmallMarginBottom" />
+                        
+                        <VBox items="{/attachments}">
+                            <HBox alignItems="Center" justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
+                                <HBox alignItems="Center">
+                                    <core:Icon src="sap-icon://pdf-attachment" color="#0a6ed1" class="sapUiTinyMarginEnd" />
+                                    <Link text="{fileName}" target="_blank" press=".onAttachmentPress" class="sapUiSmallMarginEnd" />
+                                    <Text text="{fileSize}" class="sapUiTinyMarginEnd" />
+                                </HBox>
+                                <Button icon="sap-icon://download" type="Transparent" press=".onDownloadSingleAttachment" />
+                            </HBox>
+                        </VBox>
+                    </VBox>
+
+                    <VBox width="49%" class="sapUiCard" style="border: 1px solid #e5e5e5; background: #fff; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                        <Title text="Remarks / Notes" level="H5" titleStyle="H5" class="sapUiSmallMarginBottom" />
+                        <TextArea value="{/remarks}" rows="4" width="100%" editable="false" style="background: #fcfcfc;" />
+                    </VBox>
+
+                </FlexBox>
+
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

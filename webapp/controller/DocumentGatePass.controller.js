@@ -6,10 +6,11 @@ sap.ui.define([
 ], (Controller, JSONModel, MessageToast, MessageBox) => {
     "use strict";
 
-    return Controller.extend("com.acutaas.gatepassmanagement.controller.ManualGatePass", {
+    return Controller.extend("com.acutaas.gatepassmanagement.controller.DocumentGatePass", {
         onInit() {
+            // Initial data matching the Document Gate Pass item structure
             this._oInitialData = {
-                // Sample initial data structure for the gate pass form
+                // Sample initial data structure for the document gate pass form
             };
 
             this.getView().setModel(new JSONModel(JSON.parse(JSON.stringify(this._oInitialData))));
@@ -41,30 +42,24 @@ sap.ui.define([
             oModel.setProperty("/itemData", aItems);
         },
 
-        onEditPress() {
-            this._setEditing(true);
-            MessageToast.show("Edit mode enabled");
-        },
-
         onSavePress() {
             this._setEditing(false);
             MessageToast.show("Gate pass saved");
         },
 
-        // FIX 1: Added missing onSubmitPress method to prevent view crash
         onSubmitPress() {
             this._setEditing(false);
             MessageToast.show("Gate pass submitted for approval");
         },
 
-        // FIX 2: Corrected the route name from "RouteDashboard" to "dashboard"
         onNavToHome: function () {
             this.getOwnerComponent().getRouter().navTo("dashboard");
         },
 
-        onApplyPress() {
-            this._setEditing(false);
-            MessageToast.show("Gate pass applied");
+        // Triggered by the Reference Document Number Value Help Icon
+        onRefDocHelp() {
+            MessageToast.show("Reference Document search requested");
+            // Implement your fragment dialog / search logic here
         },
 
         onDeleteSelectedPress() {
@@ -121,15 +116,16 @@ sap.ui.define([
             const oModel = this._getDataModel();
             const aItems = oModel.getProperty("/itemData") || [];
 
+            // Updated to match the new item details columns
             aItems.push({
                 sNo: aItems.length + 1,
                 materialCode: "",
                 materialDesc: "",
                 uom: "EA",
                 quantity: 1,
-                returnDate: "",
-                refDocNo: "",
-                refDocType: ""
+                batchNo: "",
+                plant: "",
+                storageLoc: ""
             });
 
             oModel.setProperty("/itemData", aItems);
@@ -144,15 +140,7 @@ sap.ui.define([
         },
 
         onCancelPress() {
-            // FIX 2: Corrected the route name from "RouteDashboard" to "dashboard"
             this.getOwnerComponent().getRouter().navTo("dashboard");
-        },
-
-        onVendorHelp() {
-            MessageToast.show("Vendor help requested");
-        },
-
-        onSelectionChange() {
         },
 
         onDownloadAttachmentPress() {

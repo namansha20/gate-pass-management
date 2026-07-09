@@ -59,3 +59,43 @@
 .purpleTile .sapMGTTitle {
     color: #72349e !important; /* Remove this if you don't want the text colored */
 }
+
+/* Standard Card Layout */
+.customStandardCard {
+    border: 1px solid #e5e5e5;
+    background: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+/* Specific KPI Banner styling */
+.customKpiBanner {
+    border: 1px solid #d9e6f2;
+    background: #f5f9fc;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+/* Circular Icon Wrapper */
+.customIconWrapper {
+    width: 3rem;
+    height: 3rem;
+    background: #e3f2fd;
+    border-radius: 50%;
+}
+
+/* Blue Text Styling */
+.customBlueText {
+    color: #0a6ed1 !important;
+}
+
+/* Padding utility for boxes */
+.customPadding {
+    padding: 1rem;
+}
+
+/* Background for read-only Text Area */
+.customTextAreaBg textarea {
+    background-color: #fcfcfc !important;
+}

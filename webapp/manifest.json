@@ -85,7 +85,7 @@
       "targets": {
         "dashboard": { "viewName": "Dashboard", "viewId": "dashboard" },
         "manual": { "viewName": "ManualGatePass", "viewId": "manual" },
-        "reference": { "viewName": "GatePassReference", "viewId": "reference" },
+        "reference": { "viewName": "DocumentGatePass", "viewId": "reference" },
         "change": { "viewName": "ChangeGatePass", "viewId": "change" },
         "display": { "viewName": "DisplayGatePass", "viewId": "display" },
         "approvalReport": { "viewName": "ApprovalReport", "viewId": "approvalReport" },

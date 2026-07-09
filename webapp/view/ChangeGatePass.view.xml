@@ -1,0 +1,168 @@
+<mvc:View
+    controllerName="com.acutaas.gatepassmanagement.controller.ChangeGatePass"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:l="sap.ui.layout"
+>
+    <Page id="changeGatePassPage" showHeader="true" class="sapUiContentPadding">
+        
+        <customHeader>
+            <Toolbar id="changeHeaderToolbar" class="sapUiMediumMarginTopBottom">
+                <Title id="changeHeaderTitle" text="Change Gate Pass" level="H2" titleStyle="H2" class="sapUiTinyMarginBegin" />
+                <ToolbarSpacer id="changeHeaderSpacer" />
+                <Button id="btnSave" text="Save" type="Emphasized" press=".onSavePress" />
+                <Button id="btnResubmit" text="Resubmit for Approval" type="Default" press=".onResubmitPress" />
+                <Button id="btnCloseGP" text="Close Gate Pass (Returnable)" type="Default" press=".onCloseGatePassPress" />
+                <Button id="btnCancel" text="Cancel" type="Default" press=".onCancelPress" />
+            </Toolbar>
+        </customHeader>
+
+        <content>
+            <VBox id="changePageContent" class="sapUiSmallMargin">
+                
+                <VBox class="sapUiCard sapUiSmallMarginBottom" style="border: 1px solid #e5e5e5; background: #fff; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                    <Title text="Search Gate Pass" level="H4" titleStyle="H4" class="sapUiSmallMarginBottom" />
+                    <HBox wrap="Wrap" alignItems="End" justifyContent="SpaceBetween">
+                        <VBox class="sapUiSmallMarginEnd sapUiTinyMarginBottom" width="18%">
+                            <Label text="Gate Pass No.:" />
+                            <Input id="searchGpNo" showValueHelp="true" valueHelpIconSrc="sap-icon://search" valueHelpRequest=".onGatePassHelp" width="100%" />
+                        </VBox>
+                        <VBox class="sapUiSmallMarginEnd sapUiTinyMarginBottom" width="18%">
+                            <Label text="Gate Pass Type:" />
+                            <Select id="searchGpType" width="100%"></Select>
+                        </VBox>
+                        <VBox class="sapUiSmallMarginEnd sapUiTinyMarginBottom" width="18%">
+                            <Label text="Status:" />
+                            <Select id="searchStatus" width="100%"></Select>
+                        </VBox>
+                        <VBox class="sapUiSmallMarginEnd sapUiTinyMarginBottom" width="18%">
+                            <Label text="From Date:" />
+                            <DatePicker id="searchFromDate" valueFormat="dd.MM.yyyy" displayFormat="dd.MM.yyyy" width="100%" />
+                        </VBox>
+                        <VBox class="sapUiSmallMarginEnd sapUiTinyMarginBottom" width="18%">
+                            <Label text="To Date:" />
+                            <DatePicker id="searchToDate" valueFormat="dd.MM.yyyy" displayFormat="dd.MM.yyyy" width="100%" />
+                        </VBox>
+                        <VBox class="sapUiTinyMarginBottom" width="5%">
+                            <Button text="Go" type="Emphasized" press=".onSearchGo" width="100%" />
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+                <VBox class="sapUiCard sapUiSmallMarginBottom" style="border: 1px solid #e5e5e5; background: #fff; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                    <Title text="Gate Pass Header Details" level="H4" titleStyle="H4" class="sapUiSmallMarginBottom" />
+                    <form:SimpleForm id="headerDetailsForm" layout="ColumnLayout" columnsM="3" columnsL="3" columnsXL="3">
+                        <form:content>
+                            <Label text="Gate Pass No.:" />
+                            <Input id="hdrGpNo" editable="false" />
+                            <Label text="Unit:" />
+                            <Input id="hdrUnit" />
+                            <Label text="Vendor:" />
+                            <Input id="hdrVendor" />
+                            <Label text="Vehicle Number:" />
+                            <Input id="hdrVehicle" />
+
+                            <Label text="Plant:" />
+                            <Input id="hdrPlant" />
+                            <Label text="Requester Employee Name:" />
+                            <Input id="hdrRequester" />
+                            <Label text="Mode of Transport:" />
+                            <Input id="hdrTransport" />
+                            <Label text="Reason for Movement:" />
+                            <Input id="hdrMovementReason" />
+
+                            <Label text="Gate Pass Type:" />
+                            <Input id="hdrGpType" editable="false" />
+                            <Label text="Request Date:" />
+                            <Input id="hdrRequestDate" editable="false" />
+                            <Label text="Expected Return Date:" />
+                            <Input id="hdrExpectedReturn" />
+                            <Label text="Status:" />
+                            <ObjectStatus id="hdrStatus" text="" state="Warning" inverted="true" />
+                        </form:content>
+                    </form:SimpleForm>
+                </VBox>
+
+                <Panel id="itemPanel" expandable="false" class="sapUiNoContentPadding sapUiCard sapUiSmallMarginBottom" style="border: 1px solid #e5e5e5; background: #fff; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <Title text="Item Details" level="H4" titleStyle="H4" />
+                            <ToolbarSpacer />
+                            <Button text="Add Item" icon="sap-icon://add" type="Transparent" press=".onAddItem" />
+                            <Button text="Delete Item" icon="sap-icon://delete" type="Transparent" press=".onDeleteSelectedPress" />
+                        </OverflowToolbar>
+                    </headerToolbar>
+                    
+                    <Table id="itemsTable" items="{/itemData}" mode="MultiSelect">
+                        <columns>
+                            <Column width="3rem"><Label text="S.No." /></Column>
+                            <Column><Label text="Material Code" /></Column>
+                            <Column><Label text="Material Description" /></Column>
+                            <Column width="6rem"><Label text="UOM" /></Column>
+                            <Column width="6rem"><Label text="Quantity" /></Column>
+                            <Column><Label text="Approx. Return Date" /></Column>
+                            <Column><Label text="Ref. Document No." /></Column>
+                            <Column><Label text="Ref. Doc. Type" /></Column>
+                            <Column width="4rem"><Label text="Actions" /></Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="{sNo}" />
+                                    <Input value="{materialCode}" showValueHelp="true" valueHelpRequest=".onMaterialHelp" />
+                                    <Input value="{materialDesc}" />
+                                    <Select selectedKey="{uom}"></Select>
+                                    <Input value="{quantity}" type="Number" />
+                                    <DatePicker value="{returnDate}" valueFormat="dd.MM.yyyy" displayFormat="dd.MM.yyyy" />
+                                    <Input value="{refDocNo}" />
+                                    <Select selectedKey="{refDocType}"></Select>
+                                    <Button icon="sap-icon://delete" type="Transparent" press=".onDeleteItemPress" />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </Panel>
+
+                <FlexBox wrap="Wrap" justifyContent="SpaceBetween">
+                    
+                    <VBox width="32%" class="sapUiCard" style="border: 1px solid #e5e5e5; background: #fff; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                        <Label text="Comments / Notes:" class="sapUiTinyMarginBottom" />
+                        <TextArea id="notesTextArea" rows="6" width="100%" />
+                    </VBox>
+
+                    <VBox width="32%" class="sapUiCard" style="border: 1px solid #e5e5e5; background: #fff; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                        <Label text="Reason for Change:" required="true" class="sapUiTinyMarginBottom" />
+                        <Select id="changeReasonSelect" width="100%" class="sapUiSmallMarginBottom"></Select>
+                        
+                        <Label text="Remarks:" required="true" class="sapUiTinyMarginBottom" />
+                        <TextArea id="changeRemarksTextArea" rows="3" width="100%" />
+                    </VBox>
+
+                    <VBox width="32%" class="sapUiCard" style="border: 1px solid #d4ebd6; background: #f4faf5; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                        <Title text="Returnable Gate Pass - Close" level="H5" class="sapUiSmallMarginBottom" style="color: #2b7c2b;" />
+                        
+                        <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                            <Label text="Is Gate Pass Closed?" class="sapUiSmallMarginEnd" />
+                            <RadioButtonGroup id="rbgIsClosed" columns="2">
+                                <RadioButton text="Yes" />
+                                <RadioButton text="No" selected="true" />
+                            </RadioButtonGroup>
+                        </HBox>
+
+                        <Label text="Reason for Closure:" class="sapUiTinyMarginBottom" />
+                        <Select id="closureReasonSelect" width="100%" class="sapUiSmallMarginBottom">
+                            <core:Item text="Select or enter reason for closure" key="" />
+                        </Select>
+
+                        <Label text="Closure Date:" class="sapUiTinyMarginBottom" />
+                        <DatePicker id="closureDatePicker" valueFormat="dd.MM.yyyy" displayFormat="dd.MM.yyyy" width="100%" />
+                    </VBox>
+
+                </FlexBox>
+
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>
