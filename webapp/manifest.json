@@ -38,7 +38,9 @@
       "minUI5Version": "1.149.1",
       "libs": {
         "sap.m": {},
-        "sap.ui.core": {}
+        "sap.ui.core": {},
+        "sap.ui.layout": {},
+        "sap.tnt": {}
       }
     },
     "contentDensities": {
@@ -63,36 +65,37 @@
     "routing": {
       "config": {
         "routerClass": "sap.m.routing.Router",
-        "controlAggregation": "pages",
-        "controlId": "app",
-        "transition": "slide",
-        "type": "View",
         "viewType": "XML",
-        "path": "com.acutaas.gatepassmanagement.view",
-        "async": true,
-        "viewPath": "com.acutaas.gatepassmanagement.view"
+        "viewPath": "com.acutaas.gatepassmanagement.view",
+        "controlId": "splitApp",
+        "controlAggregation": "detailPages",
+        "transition": "slide",
+        "async": true
       },
       "routes": [
-        {
-          "name": "RouteDashboard",
-          "pattern": ":?query:",
-          "target": [
-            "TargetDashboard"
-          ]
-        }
+        { "pattern": "", "name": "default", "target": "dashboard" },
+        { "pattern": "dashboard", "name": "dashboard", "target": "dashboard" },
+        { "pattern": "manual", "name": "manual", "target": "manual" },
+        { "pattern": "reference", "name": "reference", "target": "reference" },
+        { "pattern": "change", "name": "change", "target": "change" },
+        { "pattern": "display", "name": "display", "target": "display" },
+        { "pattern": "approvalReport", "name": "approvalReport", "target": "approvalReport" },
+        { "pattern": "detailReport", "name": "detailReport", "target": "detailReport" }
       ],
       "targets": {
-        "TargetDashboard": {
-          "id": "Dashboard",
-          "name": "Dashboard"
-        }
+        "dashboard": { "viewName": "Dashboard", "viewId": "dashboard" },
+        "manual": { "viewName": "ManualGatePass", "viewId": "manual" },
+        "reference": { "viewName": "GatePassReference", "viewId": "reference" },
+        "change": { "viewName": "ChangeGatePass", "viewId": "change" },
+        "display": { "viewName": "DisplayGatePass", "viewId": "display" },
+        "approvalReport": { "viewName": "ApprovalReport", "viewId": "approvalReport" },
+        "detailReport": { "viewName": "DetailReport", "viewId": "detailReport" }
       }
     },
     "rootView": {
       "viewName": "com.acutaas.gatepassmanagement.view.App",
       "type": "XML",
-      "id": "App",
-      "async": true
+      "id": "app"
     }
   }
 }

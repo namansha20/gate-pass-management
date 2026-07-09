@@ -1,0 +1,203 @@
+<mvc:View
+    controllerName="com.acutaas.gatepassmanagement.controller.ManualGatePass"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+>
+    <!-- No SplitApp / sidebar here anymore - the shared sidebar lives once
+         in App.view.xml. This view is just the detail content the router
+         drops into splitApp's detailPages. -->
+    <Page id="manualGatePassPage" showHeader="true" class="sapUiContentPadding">
+        <customHeader>
+            <Toolbar id="manualHeaderToolbar" class="sapUiMediumMarginTopBottom">
+                <Title id="manualHeaderTitle" text="Create Gate Pass - Manual" level="H2" titleStyle="H2" class="sapUiTinyMarginBegin" />
+                <ToolbarSpacer id="manualHeaderSpacer" />
+                <Button id="manualSaveButton" text="Save" type="Emphasized" press=".onSavePress" />
+                <Button id="manualSubmitButton" text="Submit for Approval" type="Default" press=".onSubmitPress" />
+                <Button id="manualClearButton" text="Clear" type="Default" press=".onClearPress" />
+                <Button id="manualCancelButton" text="Cancel" type="Default" press=".onCancelPress" />
+            </Toolbar>
+        </customHeader>
+
+        <content>
+            <VBox id="manualPageContent" class="sapUiSmallMargin manualPageContent">
+
+                <IconTabBar id="manualTabBar" expandable="false" class="manualTabBar sapUiNoContentPadding">
+                    <items>
+                        <IconTabFilter id="headerTabFilter" text="Header Details" key="header">
+                            <content>
+                                <Panel id="headerPanel" headerText="Header Details" expandable="false" class="sapUiNoContentPadding manualPanel">
+                                    <form:Form id="headerForm">
+                                        <form:layout>
+                                            <!-- Single FormContainer takes the full row (columnsL/M/XL = 1).
+                                                 Each FormElement below declares its own 12-cell span via
+                                                 cellsLarge, so rows 1-3 hold 3 fields each (cellsLarge=4) and
+                                                 row 4 holds 4 fields (cellsLarge=3), matching the reference image -->
+                                            <form:ColumnLayout id="headerColumnLayout" columnsXL="1" columnsL="1" columnsM="1" />
+                                        </form:layout>
+                                        <form:formContainers>
+                                            <form:FormContainer id="headerContainer">
+                                                <form:formElements>
+                                                    <!-- Row 1: Unit | Plant | Gate Pass Type -->
+                                                    <form:FormElement id="unitElement">
+                                                        <form:layoutData><form:ColumnElementData id="unitElementLayout" cellsLarge="4" cellsSmall="12" /></form:layoutData>
+                                                        <form:label><Label id="unitLabel" text="Unit" required="true" /></form:label>
+                                                        <form:fields><Select id="unitSelect" selectedKey="AC01"><core:Item key="AC01" text="AC01 - Acutaas Chemicals Ltd." /></Select></form:fields>
+                                                    </form:FormElement>
+                                                    <form:FormElement id="plantElement">
+                                                        <form:layoutData><form:ColumnElementData id="plantElementLayout" cellsLarge="4" cellsSmall="12" /></form:layoutData>
+                                                        <form:label><Label id="plantLabel" text="Plant" required="true" /></form:label>
+                                                        <form:fields><Select id="plantSelect" selectedKey="P1"><core:Item key="P1" text="P1 - Plant 1" /></Select></form:fields>
+                                                    </form:FormElement>
+                                                    <form:FormElement id="gatePassTypeElement">
+                                                        <form:layoutData><form:ColumnElementData id="gatePassTypeElementLayout" cellsLarge="4" cellsSmall="12" /></form:layoutData>
+                                                        <form:label><Label id="gatePassTypeLabel" text="Gate Pass Type" required="true" /></form:label>
+                                                        <form:fields><Select id="gatePassTypeSelect" selectedKey="Returnable"><core:Item key="Returnable" text="Returnable" /><core:Item key="NonReturnable" text="Non-Returnable" /></Select></form:fields>
+                                                    </form:FormElement>
+
+                                                    <!-- Row 2: Vendor Code | Vendor Name | Requestor Employee Name -->
+                                                    <form:FormElement id="vendorCodeElement">
+                                                        <form:layoutData><form:ColumnElementData id="vendorCodeElementLayout" cellsLarge="4" cellsSmall="12" /></form:layoutData>
+                                                        <form:label><Label id="vendorCodeLabel" text="Vendor Code" /></form:label>
+                                                        <form:fields><Input id="vendorCodeInput" placeholder="Search or Select Vendor" showValueHelp="true" valueHelpRequest=".onVendorHelp" /></form:fields>
+                                                    </form:FormElement>
+                                                    <form:FormElement id="vendorNameElement">
+                                                        <form:layoutData><form:ColumnElementData id="vendorNameElementLayout" cellsLarge="4" cellsSmall="12" /></form:layoutData>
+                                                        <form:label><Label id="vendorNameLabel" text="Vendor Name" /></form:label>
+                                                        <form:fields><Input id="vendorNameInput" value="L&amp;T Repair Services" /></form:fields>
+                                                    </form:FormElement>
+                                                    <form:FormElement id="requestorElement">
+                                                        <form:layoutData><form:ColumnElementData id="requestorElementLayout" cellsLarge="4" cellsSmall="12" /></form:layoutData>
+                                                        <form:label><Label id="requestorLabel" text="Requestor Employee Name" required="true" /></form:label>
+                                                        <form:fields><Input id="requestorInput" value="Ajay Basani" /></form:fields>
+                                                    </form:FormElement>
+
+                                                    <!-- Row 3: Mode of Transport | Vehicle Number | Reason for Movement -->
+                                                    <form:FormElement id="transportElement">
+                                                        <form:layoutData><form:ColumnElementData id="transportElementLayout" cellsLarge="4" cellsSmall="12" /></form:layoutData>
+                                                        <form:label><Label id="transportLabel" text="Mode of Transport" required="true" /></form:label>
+                                                        <form:fields><Select id="transportSelect" selectedKey="Vehicle"><core:Item key="Vehicle" text="By Vehicle" /></Select></form:fields>
+                                                    </form:FormElement>
+                                                    <form:FormElement id="vehicleElement">
+                                                        <form:layoutData><form:ColumnElementData id="vehicleElementLayout" cellsLarge="4" cellsSmall="12" /></form:layoutData>
+                                                        <form:label><Label id="vehicleLabel" text="Vehicle Number" /></form:label>
+                                                        <form:fields><Input id="vehicleInput" value="GJ01AB1234" /></form:fields>
+                                                    </form:FormElement>
+                                                    <form:FormElement id="reasonElement">
+                                                        <form:layoutData><form:ColumnElementData id="reasonElementLayout" cellsLarge="4" cellsSmall="12" /></form:layoutData>
+                                                        <form:label><Label id="reasonLabel" text="Reason for Movement" required="true" /></form:label>
+                                                        <form:fields><Input id="reasonInput" value="Machine sent for repair and maintenance" /></form:fields>
+                                                    </form:FormElement>
+
+                                                    <!-- Row 4: Reference Document | Reference Document Type | Request Date | Expected Return Date (4 fields) -->
+                                                    <form:FormElement id="refDocElement">
+                                                        <form:layoutData><form:ColumnElementData id="refDocElementLayout" cellsLarge="3" cellsSmall="12" /></form:layoutData>
+                                                        <form:label><Label id="refDocLabel" text="Reference Document (Optional)" /></form:label>
+                                                        <form:fields><Input id="refDocInput" placeholder="Enter Document No." /></form:fields>
+                                                    </form:FormElement>
+                                                    <form:FormElement id="refDocTypeElement">
+                                                        <form:layoutData><form:ColumnElementData id="refDocTypeElementLayout" cellsLarge="3" cellsSmall="12" /></form:layoutData>
+                                                        <form:label><Label id="refDocTypeLabel" text="Reference Document Type" /></form:label>
+                                                        <form:fields><Select id="refDocTypeSelect"><core:Item key="" text="Select" /><core:Item key="PO" text="Purchase Order" /></Select></form:fields>
+                                                    </form:FormElement>
+                                                    <form:FormElement id="requestDateElement">
+                                                        <form:layoutData><form:ColumnElementData id="requestDateElementLayout" cellsLarge="3" cellsSmall="12" /></form:layoutData>
+                                                        <form:label><Label id="requestDateLabel" text="Request Date" required="true" /></form:label>
+                                                        <form:fields><DatePicker id="requestDatePicker" value="16.06.2026" valueFormat="dd.MM.yyyy" displayFormat="dd.MM.yyyy" /></form:fields>
+                                                    </form:FormElement>
+                                                    <form:FormElement id="returnDateElement">
+                                                        <form:layoutData><form:ColumnElementData id="returnDateElementLayout" cellsLarge="3" cellsSmall="12" /></form:layoutData>
+                                                        <form:label><Label id="returnDateLabel" text="Expected Return Date" required="true" /></form:label>
+                                                        <form:fields><DatePicker id="returnDatePicker" value="30.06.2026" valueFormat="dd.MM.yyyy" displayFormat="dd.MM.yyyy" /></form:fields>
+                                                    </form:FormElement>
+                                                </form:formElements>
+                                            </form:FormContainer>
+                                        </form:formContainers>
+                                    </form:Form>
+                                </Panel>
+                            </content>
+                        </IconTabFilter>
+
+                        <IconTabFilter id="itemTabFilter" text="Item Details" key="items">
+                            <content>
+                                <Panel id="itemPanel" expandable="false" class="sapUiNoContentPadding manualPanel sapUiMediumMarginTop">
+                                    <headerToolbar>
+                                        <OverflowToolbar id="itemsToolbar">
+                                            <Title id="itemsToolbarTitle" text="Item Details" level="H4" titleStyle="H4" />
+                                            <ToolbarSpacer id="itemsToolbarSpacer" />
+                                            <Button id="addItemButton" text="Add Item" icon="sap-icon://add" type="Transparent" press=".onAddItem" />
+                                            <Button id="deleteSelectedItemsButton" text="Delete" icon="sap-icon://delete" type="Transparent" press=".onDeleteSelectedPress" />
+                                        </OverflowToolbar>
+                                    </headerToolbar>
+
+                                    <Table id="itemsTable" items="{/itemData}" mode="None">
+                                        <columns>
+                                            <Column id="snoColumn" width="3rem"><Label id="snoHeader" text="S.No." /></Column>
+                                            <Column id="materialCodeColumn"><Label id="materialCodeHeader" text="Material Code" required="true" /></Column>
+                                            <Column id="materialDescColumn"><Label id="materialDescHeader" text="Material Description" required="true" /></Column>
+                                            <Column id="uomColumn" width="5rem"><Label id="uomHeader" text="UOM" required="true" /></Column>
+                                            <Column id="quantityColumn" width="5rem"><Label id="quantityHeader" text="Quantity" required="true" /></Column>
+                                            <Column id="returnDateColumn"><Label id="returnDateHeader" text="Approx. Return Date" required="true" /></Column>
+                                            <Column id="refDocNoColumn"><Label id="refDocNoHeader" text="Ref. Document No." /></Column>
+                                            <Column id="refDocTypeColumn"><Label id="refDocTypeHeader" text="Ref. Doc. Type" /></Column>
+                                            <Column id="itemActionColumn" width="4rem"><Label id="itemActionHeader" text="Actions" /></Column>
+                                        </columns>
+                                        <items>
+                                            <ColumnListItem id="itemRowTemplate">
+                                                <cells>
+                                                    <Text id="itemSNoText" text="{sNo}" />
+                                                    <Input id="itemMaterialCodeInput" value="{materialCode}" showValueHelp="true" />
+                                                    <Input id="itemMaterialDescInput" value="{materialDesc}" />
+                                                    <Select id="itemUomSelect" selectedKey="{uom}">
+                                                        <core:Item key="EA" text="EA" />
+                                                        <core:Item key="SET" text="SET" />
+                                                    </Select>
+                                                    <Input id="itemQuantityInput" value="{quantity}" type="Number" />
+                                                    <DatePicker id="itemReturnDatePicker" value="{returnDate}" displayFormat="dd.MM.yyyy" />
+                                                    <Input id="itemRefDocNoInput" value="{refDocNo}" placeholder="-" />
+                                                    <Select id="itemRefDocTypeSelect" selectedKey="{refDocType}">
+                                                        <core:Item key="" text="-" />
+                                                        <core:Item key="PO" text="PO" />
+                                                    </Select>
+                                                    <Button id="itemDeleteButton" icon="sap-icon://delete" type="Transparent" press=".onDeleteItemPress" />
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                                </Panel>
+                            </content>
+                        </IconTabFilter>
+                    </items>
+                </IconTabBar>
+
+                <!-- Bottom Cards -->
+                <FlexBox id="manualBottomGrid" class="sapUiMediumMarginTop" wrap="Wrap" justifyContent="SpaceBetween">
+                    <VBox id="notesCard" class="manualInfoCard sapUiCard sapUiSmallMargin sapUiSmallMarginTop" width="32%" style="border: 1px solid #e5e5e5; background: #fff; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                        <Label id="notesLabel" text="Comments / Notes:" class="sapUiTinyMarginBottom" />
+                        <TextArea id="notesTextArea" value="Machine part is being sent to vendor for repair and maintenance." rows="5" width="100%" />
+                    </VBox>
+
+                    <VBox id="attachmentsCard" class="manualInfoCard sapUiCard sapUiSmallMargin sapUiSmallMarginTop" width="32%" style="border: 1px solid #e5e5e5; background: #fff; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                        <Title id="attachmentsTitle" text="Attachments" level="H5" class="sapUiTinyMarginBottom" />
+                        <HBox id="attachmentsRow" alignItems="Center" justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
+                            <HBox alignItems="Center">
+                                <Link id="attachmentLink" text="Repair_Quotation.pdf" target="_blank" press=".onAttachmentPress" class="sapUiSmallMarginEnd" />
+                                <Text id="attachmentSizeText" text="123 KB" />
+                            </HBox>
+                            <Button id="downloadAttachmentButton" icon="sap-icon://download" type="Transparent" press=".onDownloadAttachmentPress" />
+                        </HBox>
+                        <Button id="addAttachmentButton" text="Add Attachment" icon="sap-icon://attachment" type="Transparent" press=".onAddAttachmentPress" class="sapUiTinyMarginTop" />
+                    </VBox>
+
+                    <VBox id="gatePassNumberCard" class="manualInfoCard manualStatusCard sapUiCard sapUiSmallMargin sapUiSmallMarginTop" width="32%" style="border: 1px solid #d7e2ef; background-color: #eef4fb; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                        <Text id="gatePassNumberLabel" text="Gate Pass Number" class="sapUiTinyMarginBottom" />
+                        <Title id="gatePassNumberValue" text="To be generated on save" level="H3" titleStyle="H3" class="sapThemeBrand-asColor" />
+                        <Text id="gatePassNumberNote" text="(System will generate after saving)" class="sapUiTinyMarginTop" />
+                    </VBox>
+                </FlexBox>
+
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>
