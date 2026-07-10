@@ -1,0 +1,186 @@
+<mvc:View
+    controllerName="com.acutaas.gatepassmanagement.controller.ApprovalReport"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:form="sap.ui.layout.form"
+>
+    <Page id="approvalReportPage" showHeader="true" class="sapUiContentPadding" title="Gate Pass Approval Report">
+        
+        <headerContent>
+            <Button id="btnExport" text="Export to Excel" icon="sap-icon://excel-attachment" type="Transparent" press=".onExportPress" />
+        </headerContent>
+        
+        <subHeader>
+            <Toolbar>
+                <Text text="Track and monitor Gate Pass pending for approval" class="sapUiTinyMarginBegin" />
+            </Toolbar>
+        </subHeader>
+
+        <content>
+            <VBox class="sapUiSmallMargin">
+                
+                <!-- FILTER SECTION -->
+                <VBox class="sapUiCard sapUiSmallMarginBottom" style="border: 1px solid #e5e5e5; background: #fff; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                    <HBox wrap="Wrap" justifyContent="SpaceBetween">
+                        <!-- Row 1 & 2 Inputs -->
+                        <VBox class="sapUiSmallMarginEnd sapUiSmallMarginBottom" width="18%">
+                            <Label text="Plant:" />
+                            <Select id="filterPlant" width="100%" selectedKey="{filterModel>/plant}">
+                                <core:Item text="All" key="ALL" />
+                            </Select>
+                        </VBox>
+                        
+                        <VBox class="sapUiSmallMarginEnd sapUiSmallMarginBottom" width="18%">
+                            <Label text="Gate Pass Type:" />
+                            <Select id="filterType" width="100%" selectedKey="{filterModel>/type}">
+                                <core:Item text="All" key="ALL" />
+                            </Select>
+                        </VBox>
+                        
+                        <VBox class="sapUiSmallMarginEnd sapUiSmallMarginBottom" width="18%">
+                            <Label text="Status:" />
+                            <Select id="filterStatus" width="100%" selectedKey="{filterModel>/status}">
+                                <core:Item text="All" key="ALL" />
+                            </Select>
+                        </VBox>
+                        
+                        <VBox class="sapUiSmallMarginEnd sapUiSmallMarginBottom" width="18%">
+                            <Label text="Approver:" />
+                            <Input id="filterApprover" placeholder="Search or Select Approver" showValueHelp="true" value="{filterModel>/approver}" width="100%" />
+                        </VBox>
+
+                        <VBox class="sapUiSmallMarginBottom" width="18%">
+                            <Label text="From Date:" />
+                            <DatePicker id="filterFromDate" valueFormat="dd.MM.yyyy" displayFormat="dd.MM.yyyy" value="{filterModel>/fromDate}" width="100%" />
+                        </VBox>
+
+                        <VBox class="sapUiSmallMarginEnd sapUiTinyMarginBottom" width="18%">
+                            <Label text="To Date:" />
+                            <DatePicker id="filterToDate" valueFormat="dd.MM.yyyy" displayFormat="dd.MM.yyyy" value="{filterModel>/toDate}" width="100%" />
+                        </VBox>
+
+                        <VBox class="sapUiSmallMarginEnd sapUiTinyMarginBottom" width="18%">
+                            <Label text="Requester:" />
+                            <Input id="filterRequester" placeholder="Search or Select Requester" showValueHelp="true" value="{filterModel>/requester}" width="100%" />
+                        </VBox>
+
+                        <VBox class="sapUiSmallMarginEnd sapUiTinyMarginBottom" width="18%">
+                            <Label text="Vendor:" />
+                            <Input id="filterVendor" placeholder="Search or Select Vendor" showValueHelp="true" value="{filterModel>/vendor}" width="100%" />
+                        </VBox>
+
+                        <VBox class="sapUiSmallMarginEnd sapUiTinyMarginBottom" width="18%">
+                            <Label text="Mode of Transport:" />
+                            <Select id="filterTransport" width="100%" selectedKey="{filterModel>/transport}">
+                                <core:Item text="All" key="ALL" />
+                            </Select>
+                        </VBox>
+                        
+                        <!-- Actions -->
+                        <VBox width="18%" justifyContent="End" alignItems="End" class="sapUiTinyMarginBottom">
+                            <HBox>
+                                <Button text="Go" type="Emphasized" press=".onSearchGo" class="sapUiTinyMarginEnd" width="5rem" />
+                                <Button text="Clear" type="Transparent" press=".onSearchClear" width="5rem" />
+                            </HBox>
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+                <!-- KPI CARDS SECTION -->
+                <FlexBox wrap="Wrap" justifyContent="SpaceBetween" class="sapUiSmallMarginBottom">
+                    
+                    <HBox width="23%" alignItems="Center" class="sapUiCard" style="border: 1px solid #e5e5e5; background: #fff; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                        <VBox justifyContent="Center" alignItems="Center" class="sapUiSmallMarginEnd" style="width: 3rem; height: 3rem; background: #e3f2fd; border-radius: 50%;">
+                            <core:Icon src="sap-icon://document-text" size="1.5rem" color="#0a6ed1" />
+                        </VBox>
+                        <VBox>
+                            <Text text="Total Gate Passes" class="sapUiTinyMarginBottom" />
+                            <Title text="{kpiModel>/total}" level="H3" titleStyle="H3" style="color: #0a6ed1;" />
+                            <Text text="All" class="sapUiTinyMarginTop" />
+                        </VBox>
+                    </HBox>
+
+                    <HBox width="23%" alignItems="Center" class="sapUiCard" style="border: 1px solid #e5e5e5; background: #fff; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                        <VBox justifyContent="Center" alignItems="Center" class="sapUiSmallMarginEnd" style="width: 3rem; height: 3rem; background: #fff3e0; border-radius: 50%;">
+                            <core:Icon src="sap-icon://pending" size="1.5rem" color="#ef6c00" />
+                        </VBox>
+                        <VBox>
+                            <Text text="Pending for Approval" class="sapUiTinyMarginBottom" />
+                            <Title text="{kpiModel>/pending}" level="H3" titleStyle="H3" style="color: #ef6c00;" />
+                            <Text text="Pending" class="sapUiTinyMarginTop" />
+                        </VBox>
+                    </HBox>
+
+                    <HBox width="23%" alignItems="Center" class="sapUiCard" style="border: 1px solid #e5e5e5; background: #fff; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                        <VBox justifyContent="Center" alignItems="Center" class="sapUiSmallMarginEnd" style="width: 3rem; height: 3rem; background: #e8f5e9; border-radius: 50%;">
+                            <core:Icon src="sap-icon://sys-enter-2" size="1.5rem" color="#2e7d32" />
+                        </VBox>
+                        <VBox>
+                            <Text text="Approved" class="sapUiTinyMarginBottom" />
+                            <Title text="{kpiModel>/approved}" level="H3" titleStyle="H3" style="color: #2e7d32;" />
+                            <Text text="Approved" class="sapUiTinyMarginTop" />
+                        </VBox>
+                    </HBox>
+
+                    <HBox width="23%" alignItems="Center" class="sapUiCard" style="border: 1px solid #e5e5e5; background: #fff; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                        <VBox justifyContent="Center" alignItems="Center" class="sapUiSmallMarginEnd" style="width: 3rem; height: 3rem; background: #ffebee; border-radius: 50%;">
+                            <core:Icon src="sap-icon://sys-cancel-2" size="1.5rem" color="#c62828" />
+                        </VBox>
+                        <VBox>
+                            <Text text="Rejected" class="sapUiTinyMarginBottom" />
+                            <Title text="{kpiModel>/rejected}" level="H3" titleStyle="H3" style="color: #c62828;" />
+                            <Text text="Rejected" class="sapUiTinyMarginTop" />
+                        </VBox>
+                    </HBox>
+
+                </FlexBox>
+
+                <!-- TABLE SECTION -->
+                <Panel id="tablePanel" expandable="false" class="sapUiNoContentPadding sapUiCard" style="border: 1px solid #e5e5e5; background: #fff; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <Title text="Approval List ({kpiModel>/listCount})" level="H4" titleStyle="H4" />
+                            <ToolbarSpacer />
+                            <Button icon="sap-icon://filter" type="Transparent" press=".onTableFilterPress" />
+                            <Button icon="sap-icon://action-settings" type="Transparent" press=".onTableSettingsPress" />
+                        </OverflowToolbar>
+                    </headerToolbar>
+                    
+                    <Table id="approvalListTable" items="{approvalListModel>/results}" growing="true" growingThreshold="10">
+                        <columns>
+                            <Column><Label text="Gate Pass No." /></Column>
+                            <Column><Label text="Gate Pass Type" /></Column>
+                            <Column><Label text="Requester" /></Column>
+                            <Column><Label text="Plant" /></Column>
+                            <Column><Label text="Request Date" /></Column>
+                            <Column><Label text="Expected Return Date" /></Column>
+                            <Column><Label text="Current Approver" /></Column>
+                            <Column><Label text="Status" /></Column>
+                            <Column width="4rem" hAlign="Center"><Label text="Actions" /></Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem vAlign="Middle">
+                                <cells>
+                                    <Link text="{approvalListModel>gatePassNo}" press=".onGatePassLinkPress" />
+                                    <Text text="{approvalListModel>gatePassType}" />
+                                    <Text text="{approvalListModel>requester}" />
+                                    <Text text="{approvalListModel>plant}" />
+                                    <Text text="{approvalListModel>requestDate}" />
+                                    <Text text="{approvalListModel>expectedReturnDate}" />
+                                    <Text text="{approvalListModel>currentApprover}" />
+                                    <ObjectStatus text="{approvalListModel>status}" 
+                                                  state="{ path: 'approvalListModel>status', formatter: '.formatter.statusState' }" 
+                                                  inverted="true" />
+                                    <Button icon="sap-icon://action" type="Transparent" press=".onActionPress" tooltip="Open Details" />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </Panel>
+
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

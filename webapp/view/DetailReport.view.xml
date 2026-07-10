@@ -1,0 +1,257 @@
+<mvc:View
+    controllerName="com.acutaas.gatepassmanagement.controller.DetailReport"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:form="sap.ui.layout.form"
+>
+    <Page id="detailReportPage" showHeader="true" class="sapUiContentPadding">
+        
+        <customHeader>
+            <Toolbar id="detailReportHeader" class="sapUiMediumMarginTopBottom">
+                <Title text="Gate Pass Detail Report" level="H2" titleStyle="H2" class="sapUiTinyMarginBegin" />
+                <ToolbarSpacer />
+                <Button id="btnExport" text="Export to Excel" icon="sap-icon://excel-attachment" type="Transparent" press=".onExportExcelPress" />
+                <Button id="btnDownloadPdf" text="Download PDF" icon="sap-icon://pdf-attachment" type="Transparent" press=".onDownloadPdfPress" />
+                <Button id="btnBack" text="Back" icon="sap-icon://nav-back" type="Transparent" press=".onBackPress" />
+            </Toolbar>
+        </customHeader>
+
+        <subHeader>
+            <Toolbar class="sapUiNoBorder">
+                <Text text="View and analyze all Gate Pass details" class="sapUiTinyMarginBegin" />
+            </Toolbar>
+        </subHeader>
+
+        <content>
+            <VBox class="sapUiSmallMargin">
+                
+                <!-- FILTER SECTION -->
+                <VBox class="sapUiCard sapUiSmallMarginBottom" style="border: 1px solid #e5e5e5; background: #fff; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                    <HBox wrap="Wrap" justifyContent="SpaceBetween">
+                        <VBox class="sapUiSmallMarginEnd sapUiSmallMarginBottom" width="18%">
+                            <Label text="From Date:" />
+                            <DatePicker valueFormat="dd.MM.yyyy" displayFormat="dd.MM.yyyy" value="{filterModel>/fromDate}" width="100%" />
+                        </VBox>
+                        
+                        <VBox class="sapUiSmallMarginEnd sapUiSmallMarginBottom" width="18%">
+                            <Label text="To Date:" />
+                            <DatePicker valueFormat="dd.MM.yyyy" displayFormat="dd.MM.yyyy" value="{filterModel>/toDate}" width="100%" />
+                        </VBox>
+                        
+                        <VBox class="sapUiSmallMarginEnd sapUiSmallMarginBottom" width="18%">
+                            <Label text="Plant:" />
+                            <Select width="100%" selectedKey="{filterModel>/plant}">
+                                <core:Item text="All" key="ALL" />
+                            </Select>
+                        </VBox>
+
+                        <VBox class="sapUiSmallMarginEnd sapUiSmallMarginBottom" width="18%">
+                            <Label text="Gate Pass Type:" />
+                            <Select width="100%" selectedKey="{filterModel>/type}">
+                                <core:Item text="All" key="ALL" />
+                            </Select>
+                        </VBox>
+                        
+                        <VBox class="sapUiSmallMarginBottom" width="18%">
+                            <Label text="Status:" />
+                            <Select width="100%" selectedKey="{filterModel>/status}">
+                                <core:Item text="All" key="ALL" />
+                            </Select>
+                        </VBox>
+
+                        <VBox class="sapUiSmallMarginEnd sapUiTinyMarginBottom" width="18%">
+                            <Label text="Gate Pass No.:" />
+                            <Input placeholder="Search Gate Pass No." showValueHelp="true" value="{filterModel>/gatePassNo}" width="100%" />
+                        </VBox>
+
+                        <VBox class="sapUiSmallMarginEnd sapUiTinyMarginBottom" width="18%">
+                            <Label text="Requester:" />
+                            <Input placeholder="Search or Select Requester" showValueHelp="true" value="{filterModel>/requester}" width="100%" />
+                        </VBox>
+
+                        <VBox class="sapUiSmallMarginEnd sapUiTinyMarginBottom" width="18%">
+                            <Label text="Vendor:" />
+                            <Input placeholder="Search or Select Vendor" showValueHelp="true" value="{filterModel>/vendor}" width="100%" />
+                        </VBox>
+
+                        <VBox class="sapUiSmallMarginEnd sapUiTinyMarginBottom" width="18%">
+                            <Label text="Mode of Transport:" />
+                            <Select width="100%" selectedKey="{filterModel>/transport}">
+                                <core:Item text="All" key="ALL" />
+                            </Select>
+                        </VBox>
+                        
+                        <!-- Actions -->
+                        <VBox width="18%" justifyContent="End" alignItems="End" class="sapUiTinyMarginBottom">
+                            <HBox>
+                                <Button text="Go" type="Emphasized" press=".onSearchGo" class="sapUiTinyMarginEnd" width="5rem" />
+                                <Button text="Clear" type="Transparent" press=".onSearchClear" width="5rem" />
+                            </HBox>
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+                <!-- KPI CARDS SECTION -->
+                <FlexBox wrap="Wrap" justifyContent="SpaceBetween" class="sapUiSmallMarginBottom">
+                    
+                    <HBox width="19%" alignItems="Center" class="sapUiCard" style="border: 1px solid #e5e5e5; background: #fff; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                        <VBox justifyContent="Center" alignItems="Center" class="sapUiSmallMarginEnd" style="width: 3rem; height: 3rem; background: #e3f2fd; border-radius: 50%;">
+                            <core:Icon src="sap-icon://document-text" size="1.5rem" color="#0a6ed1" />
+                        </VBox>
+                        <VBox>
+                            <Text text="Total Gate Passes" class="sapUiTinyMarginBottom" />
+                            <Title text="{kpiModel>/total}" level="H3" titleStyle="H3" style="color: #0a6ed1;" />
+                        </VBox>
+                    </HBox>
+
+                    <HBox width="19%" alignItems="Center" class="sapUiCard" style="border: 1px solid #e5e5e5; background: #fff; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                        <VBox justifyContent="Center" alignItems="Center" class="sapUiSmallMarginEnd" style="width: 3rem; height: 3rem; background: #e8f5e9; border-radius: 50%;">
+                            <core:Icon src="sap-icon://sys-enter-2" size="1.5rem" color="#2e7d32" />
+                        </VBox>
+                        <VBox>
+                            <Text text="Approved" class="sapUiTinyMarginBottom" />
+                            <Title text="{kpiModel>/approved}" level="H3" titleStyle="H3" style="color: #2e7d32;" />
+                        </VBox>
+                    </HBox>
+
+                    <HBox width="19%" alignItems="Center" class="sapUiCard" style="border: 1px solid #e5e5e5; background: #fff; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                        <VBox justifyContent="Center" alignItems="Center" class="sapUiSmallMarginEnd" style="width: 3rem; height: 3rem; background: #fff3e0; border-radius: 50%;">
+                            <core:Icon src="sap-icon://pending" size="1.5rem" color="#ef6c00" />
+                        </VBox>
+                        <VBox>
+                            <Text text="Pending" class="sapUiTinyMarginBottom" />
+                            <Title text="{kpiModel>/pending}" level="H3" titleStyle="H3" style="color: #ef6c00;" />
+                        </VBox>
+                    </HBox>
+
+                    <HBox width="19%" alignItems="Center" class="sapUiCard" style="border: 1px solid #e5e5e5; background: #fff; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                        <VBox justifyContent="Center" alignItems="Center" class="sapUiSmallMarginEnd" style="width: 3rem; height: 3rem; background: #ffebee; border-radius: 50%;">
+                            <core:Icon src="sap-icon://sys-cancel-2" size="1.5rem" color="#c62828" />
+                        </VBox>
+                        <VBox>
+                            <Text text="Rejected" class="sapUiTinyMarginBottom" />
+                            <Title text="{kpiModel>/rejected}" level="H3" titleStyle="H3" style="color: #c62828;" />
+                        </VBox>
+                    </HBox>
+
+                    <HBox width="19%" alignItems="Center" class="sapUiCard" style="border: 1px solid #e5e5e5; background: #fff; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                        <VBox justifyContent="Center" alignItems="Center" class="sapUiSmallMarginEnd" style="width: 3rem; height: 3rem; background: #e0f7fa; border-radius: 50%;">
+                            <core:Icon src="sap-icon://locked" size="1.5rem" color="#00838f" />
+                        </VBox>
+                        <VBox>
+                            <Text text="Closed" class="sapUiTinyMarginBottom" />
+                            <Title text="{kpiModel>/closed}" level="H3" titleStyle="H3" style="color: #00838f;" />
+                        </VBox>
+                    </HBox>
+
+                </FlexBox>
+
+                <!-- TABLE SECTION -->
+                <Panel id="tablePanel" expandable="false" class="sapUiNoContentPadding sapUiCard sapUiSmallMarginBottom" style="border: 1px solid #e5e5e5; background: #fff; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <Title text="Gate Pass List ({kpiModel>/listCount})" level="H4" titleStyle="H4" />
+                            <ToolbarSpacer />
+                            <Button icon="sap-icon://filter" type="Transparent" press=".onTableFilterPress" />
+                            <Button icon="sap-icon://action-settings" type="Transparent" press=".onTableSettingsPress" />
+                        </OverflowToolbar>
+                    </headerToolbar>
+                    
+                    <Table id="detailListTable" items="{listModel>/results}" growing="true" growingThreshold="10">
+                        <columns>
+                            <Column><Label text="Gate Pass No." /></Column>
+                            <Column><Label text="Gate Pass Type" /></Column>
+                            <Column><Label text="Requester" /></Column>
+                            <Column><Label text="Plant" /></Column>
+                            <Column><Label text="Request Date" /></Column>
+                            <Column><Label text="Expected Return Date" /></Column>
+                            <Column><Label text="Status" /></Column>
+                            <Column><Label text="Approved By" /></Column>
+                            <Column><Label text="Closed Date" /></Column>
+                            <Column width="4rem" hAlign="Center"><Label text="Actions" /></Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem vAlign="Middle" type="Active" press=".onRowSelect">
+                                <cells>
+                                    <Link text="{listModel>gatePassNo}" press=".onRowSelect" />
+                                    <Text text="{listModel>gatePassType}" />
+                                    <Text text="{listModel>requester}" />
+                                    <Text text="{listModel>plant}" />
+                                    <Text text="{listModel>requestDate}" />
+                                    <Text text="{listModel>expectedReturnDate}" />
+                                    <ObjectStatus text="{listModel>status}" 
+                                                  state="{ path: 'listModel>status', formatter: '.formatter.statusState' }" 
+                                                  inverted="true" />
+                                    <Text text="{listModel>approvedBy}" />
+                                    <Text text="{listModel>closedDate}" />
+                                    <Button icon="sap-icon://show" type="Transparent" press=".onViewDetailsPress" tooltip="View Details" />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </Panel>
+
+                <!-- DYNAMIC SELECTED DETAIL SECTION -->
+                <VBox id="selectedDetailSection" visible="{= ${selectedItemModel>/gatePassNo} !== undefined }" class="sapUiCard" style="border: 1px solid #e5e5e5; background: #fff; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                    <Toolbar class="sapUiMediumMarginTopBottom sapUiTinyMarginBeginEnd sapUiNoBorder">
+                        <Title text="Selected Gate Pass - {selectedItemModel>/gatePassNo}" level="H4" titleStyle="H4" />
+                    </Toolbar>
+
+                    <IconTabBar expandable="false" class="sapUiNoContentPadding">
+                        <items>
+                            <IconTabFilter text="Header Details" key="header">
+                                <form:SimpleForm layout="ColumnLayout" columnsM="4" columnsL="4" columnsXL="4" editable="false" class="sapUiSmallMargin">
+                                    <form:content>
+                                        <Label text="Unit:" />
+                                        <Text text="{selectedItemModel>/unit}" />
+                                        <Label text="Requester:" />
+                                        <Text text="{selectedItemModel>/requester}" />
+                                        
+                                        <Label text="Plant:" />
+                                        <Text text="{selectedItemModel>/plant}" />
+                                        <Label text="Mode of Transport:" />
+                                        <Text text="{selectedItemModel>/modeOfTransport}" />
+
+                                        <Label text="Gate Pass Type:" />
+                                        <Text text="{selectedItemModel>/gatePassType}" />
+                                        <Label text="Vehicle No.:" />
+                                        <Text text="{selectedItemModel>/vehicleNo}" />
+                                        
+                                        <Label text="Status:" />
+                                        <ObjectStatus text="{selectedItemModel>/status}" state="{ path: 'selectedItemModel>/status', formatter: '.formatter.statusState' }" inverted="true" />
+                                        <Label text="Reason for Movement:" />
+                                        <Text text="{selectedItemModel>/reasonForMovement}" />
+
+                                        <Label text="Request Date:" />
+                                        <Text text="{selectedItemModel>/requestDate}" />
+                                        <Label text="Expected Return Date:" />
+                                        <Text text="{selectedItemModel>/expectedReturnDate}" />
+                                    </form:content>
+                                </form:SimpleForm>
+                            </IconTabFilter>
+
+                            <IconTabFilter text="Item Details" key="items">
+                                <!-- Table for Items bound to selectedItemModel>/items -->
+                            </IconTabFilter>
+
+                            <IconTabFilter text="Reference Document" key="refDoc">
+                                <!-- Details for Ref Doc -->
+                            </IconTabFilter>
+
+                            <IconTabFilter text="Attachments" key="attachments">
+                                <!-- Attachments List -->
+                            </IconTabFilter>
+
+                            <IconTabFilter text="Approval History" key="history">
+                                <!-- Timeline or Table for Approvals -->
+                            </IconTabFilter>
+                        </items>
+                    </IconTabBar>
+                </VBox>
+
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>
